@@ -1,0 +1,52 @@
+// =========================
+// Area Whisper	
+// =========================
+// by pajodex
+//
+// Requested by Mero27 https://rathena.org/board/topic/132562-whisp-custom-command/
+// 
+// ------------------------------------------------------------------
+// Mechanics:
+// 		sends out message to players around the whisperer for about 2x2 cells
+//		any one outside the range wont be able to receive the message.
+//
+//		sender has the option to increase the whisper range to his desired
+//		size by specifiying '#1-9' by the end of the message.
+//
+//		sample:
+//
+//		"This is my message.#5"
+//
+//		That message will be sent to 5x5 around the sender.
+//		Only numbers with min of 1 and max of 9 cells will be accepted.
+// 		Otherwise, the script will be defaulting the size to 2 or if
+//		sender did not specify any.
+// ------------------------------------------------------------------
+//		
+// How to use?
+//
+//	1. On whisper box (left side of chat box), enter 'NPC:Whisper' as receiver:
+//	
+//		[ NPC:Whisper ] [ <this is the chat box> ]
+//	
+//	2. On chat box, enter your desired message and press send.
+//
+// NOTE:
+// 		Message color is set at 0xff6666 by default
+// 		you can change this to your desired color.
+
+-	script	Whisper	-1,{
+OnWhisperGlobal:
+	if ( @whispervar1$ == "" || !compare("123456789",@whispervar1$) )
+		.@s = 2; // default cell area if not specified by the sender. (default: 2)
+	else
+		.@s = atoi(@whispervar1$);
+	.@OP$ = strcharinfo(0);
+	if ( @whispervar1$ != "" && !compare("123456789",@whispervar1$) )
+		message .@OP$, "Only numbers and between 1-9 can be used. Defaulting to ."+.@s;
+	getmapxy(.@map$,.@x,.@y,BL_PC);
+	.@size = getareaunits(BL_PC,.@map$,.@x+.@s,.@y+.@s,.@x-.@s,.@y-.@s,.@name$);
+	for ( .@i = 0; .@i < .@size; .@i++ )
+		dispbottom "***[ "+.@OP$+" ] : "+@whispervar0$+"***", 0xff6666, getcharid(0,.@name$[.@i]);
+	end;
+}

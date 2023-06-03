@@ -1,0 +1,42 @@
+//==================================
+//= Find ME Event 
+//= Author: munkrej#9873
+//= Description: adds command @findme to start the event - first player to touch the GM gets rewarded
+//=========================================
+
+-	script	Find_My_Clone	10005,{
+	end;
+OnInit:
+	.gmminlevel = 20;
+	.winradius = 1;
+	bindatcmd "findme",strnpcinfo(3)+"::OnCommand",.gmminlevel,99;
+	end;
+OnCommand:
+	.gm$ = strcharinfo(0);
+	getmapxy(.map$,.x,.y,BL_PC,.gm$);
+	announce .gm$ + ": I'm somewhere in "+.map$+"! First one to touch me gets a reward!",bc_all|bc_blue;
+	initnpctimer;
+	end;
+OnTimer250:
+	.@stop = 0;
+	getmapxy(.map$,.x,.y,BL_PC,.gm$);
+	if (getareaunits(BL_PC,.map$,.x+.winradius,.y+.winradius,.x-.winradius,.y-.winradius,.@gids)) {
+		for (.@i = 0; .@i < getarraysize(.@gids); .@i++) {
+			attachrid .@gids[.@i];
+			if (getgmlevel(getcharid(0)) < .gmminlevel) {
+				specialeffect2 68;
+				//REWARDS
+				getitem 512,1;
+				zeny += 5000;
+				announce "Congrats "+strcharinfo(0)+", you have won!",bc_all|bc_blue;
+				.@stop =1;
+			}
+		}
+	}
+	if (.@stop) {
+		stopnpctimer;
+	} else {
+		initnpctimer;
+	}
+	end;
+}

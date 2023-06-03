@@ -1,0 +1,46 @@
+//============================================================
+//====== start npc
+//============================================================
+celestiaj,65,77,3	script	Mellina#pvp	112,{
+OnInit:
+	set .mode,0;
+	pvpoff "celestiaj";
+OnTouch:
+	.@mode = 1;
+	if(mode){
+		set .initialize,0;
+		if (.@initialize == 1){
+			pvpon "celestiaj";
+			announce "[Enable PvP]", strcharinfo(0)+ " has enabled PvP!", 0xFFFFFF;
+		}else{
+			pvpoff "celestiaj";
+			announce "[Disable PvP]", strcharinfo(0)+ " has disabled PvP!", 0xFFFFFF;
+		}
+	} else {
+		pvpoff "celestiaj";
+		announce "[Disable PvP]", strcharinfo(0)+ " has disabled PvP!", 0xFFFFFF;
+	}
+	end;
+}
+
+celestiaj,65,75,3	script	Shinji#delay_pot	112,{
+OnInit:
+	set .timer, 0;
+	mes "Timer started!";
+	end;
+
+OnTimer5000:
+	getitem(1100005, 30);
+	getitem(121016, 10);
+	getitem(1100004, 15);
+	end;
+}
+
+
+- script Activate_NPC 1_F_MARIA,{
+OnKillMonster:
+    if(killedrid == 1002) {
+        npc "MyNPC",0,0;
+    }
+    end;
+}

@@ -1,0 +1,12 @@
+//-----------------------------------------
+// GRF Files
+// Add as many as needed.
+//-----------------------------------------
+grf: C:\Gravity\Ragnarok Online\rdata.grf
+grf: C:\Gravity\Ragnarok Online\data.grf
+
+//-----------------------------------------
+// Data Directory
+// Use the base folder, not the data\ path.
+//-----------------------------------------
+data_dir: C:\Gravity\Ragnarok Online
